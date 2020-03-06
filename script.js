@@ -221,7 +221,7 @@ return Mustache.render(popupTemplate_Spanish, layer.feature.properties);
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-/*//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 var French;
 
     function style_French(feature) {
@@ -249,7 +249,7 @@ return Mustache.render(popupTemplate_French, layer.feature.properties);
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var French_C;
 
     function style_French_C(feature) {
@@ -333,7 +333,7 @@ return Mustache.render(popupTemplate_Hungarian, layer.feature.properties);
 /*//////////////////////////////////////////////////////////////////////////////////
 
 
-/*//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 var Arabic;
 
     function style_Arabic(feature) {
@@ -358,7 +358,7 @@ console.log(layer.feature.properties);
 // that aren't used in the template, so this is fine.
 return Mustache.render(popupTemplate_Arabic, layer.feature.properties);
 });	
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -389,7 +389,7 @@ return Mustache.render(popupTemplate_Hebrew, layer.feature.properties);
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var African;
 
     function style_African(feature) {
@@ -414,7 +414,7 @@ console.log(layer.feature.properties);
 // that aren't used in the template, so this is fine.
 return Mustache.render(popupTemplate_African, layer.feature.properties);
 });	
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -501,7 +501,7 @@ return Mustache.render(popupTemplate_Portuguese, layer.feature.properties);
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var German;
 
     function style_German(feature) {
@@ -526,7 +526,7 @@ console.log(layer.feature.properties);
 // that aren't used in the template, so this is fine.
 return Mustache.render(popupTemplate_German, layer.feature.properties);
 });	
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -837,7 +837,7 @@ return Mustache.render(popupTemplate_Gujarati, layer.feature.properties);
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var Hindi;
 
     function style_Hindi(feature) {
@@ -862,10 +862,10 @@ console.log(layer.feature.properties);
 // that aren't used in the template, so this is fine.
 return Mustache.render(popupTemplate_Hindi, layer.feature.properties);
 });	
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var Urdu;
 
     function style_Urdu(feature) {
@@ -890,10 +890,10 @@ console.log(layer.feature.properties);
 // that aren't used in the template, so this is fine.
 return Mustache.render(popupTemplate_Urdu, layer.feature.properties);
 });	
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var Other_Indic;
 
     function style_Other_Indic(feature) {
@@ -918,7 +918,7 @@ console.log(layer.feature.properties);
 // that aren't used in the template, so this is fine.
 return Mustache.render(popupTemplate_Other_Indic, layer.feature.properties);
 });	
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -1201,7 +1201,7 @@ return Mustache.render(popupTemplate_Other_Asian, layer.feature.properties);
 /*//////////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 var Tagalog;
 
     function style_Tagalog(feature) {
@@ -1228,7 +1228,7 @@ return Mustache.render(popupTemplate_Tagalog, layer.feature.properties);
 });	
 
 
-///////////////////////////////////////////////////////////////////////////////////
+/*//////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -1303,13 +1303,7 @@ var CartoDB_PositronNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/li
 var mapOptions = {
 	zoomControl: false, 
 	attributionControl: false, 
-	center: [29.74,  -95.46],
-	maxBounds: [
-	//south west
-	[28.000, -97.000],
-	//north east
-	[30.95, -94.00]
-	],
+	center: [29.74,  -95.46],,
 	zoom: 11,
 	minZoom: 9,
 	maxZoom: 19,
@@ -1330,6 +1324,7 @@ var legend = L.control({ position: "bottomright" });
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
+		labels_title = ['<h6 style="text-align:center;font-size:14px;font-weight: bold;">Percent Spoken</h6>'],
 		grades = [100, 80, 40, 20, 10, 5, 2.5, 0],
         labels = ["80% +", "40% - 80%", "20% - 40%", "10% - 20%", "5% - 10%", "2.5% - 5%", ".01% - 2.5%", "0%"]
 		;
@@ -1337,9 +1332,10 @@ legend.onAdd = function (map) {
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
+            labels_title.push(
             '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-            (labels[i] ? labels[i] + '<br>' : '+');
-
+            (labels[i] ? labels[i] + '<br>' : '+'));
+        div.innerHTML = labels_title.join('');
     }
     return div;
 };
@@ -1350,6 +1346,7 @@ var legend_maj = L.control({position: 'bottomright'});
     legend_maj.onAdd = function (map) {
 
 var div_maj = L.DomUtil.create('div', 'info legend');
+    labels_fac = ['<h6 style="text-align:center;font-size:14px;font-weight: bold;">Spoken by Majority</h6>'],
     categories_maj = ['Speak only English',
 					  'Spanish or Spanish Creole',
 					  //'French incl Patois Cajun',
@@ -1361,7 +1358,7 @@ var div_maj = L.DomUtil.create('div', 'info legend');
 					  "African languages",
 					  //"Other and unspecified languages",
 					  'Italian',
-					  'Portuguese',
+					  //'Portuguese',
 					  'German',
 					  //'Yiddish',
 					  //'Other West Germanic languages',
@@ -1387,17 +1384,18 @@ var div_maj = L.DomUtil.create('div', 'info legend');
 					  //'Laotian',
 					  'Vietnamese',
 					  'Other Asian languages',
-					  'Tagalog'
+					  'Tagalog',
 					  //'Other Pacific Island languages',
 					  //'Navajo'
+					  'Other'
 					  ];
     for (var i = 0; i < categories_maj.length; i++) {
             div_maj.innerHTML += 
-            
+            labels_fac.push(
                 '<i style="background:' + getColor_maj(categories_maj[i]) + '"></i> ' +
-                (categories_maj[i] ? categories_maj[i] + '<br>' : '+');
+                (categories_maj[i] ? categories_maj[i] + '<br>' : '+'));
         }
-
+        div_maj.innerHTML = labels_fac.join('');
     return div_maj;
 };legend_maj.addTo(map);
 
@@ -1428,17 +1426,17 @@ var overlays = {
 	"Exclude English and Spanish": Majority_woES,
 	"Speak only English": English,
 	"Spanish or Spanish Creole": Spanish,
-	//"French, including Patois and Cajun": French,
+	"French, including Patois and Cajun": French,
 	//"French Creole": French_C,
 	//"Other Native North American languages": Native,
 	//"Hungarian": Hungarian,
-	//"Arabic": Arabic,
+	"Arabic": Arabic,
 	//"Hebrew": Hebrew,
-	//"African Languages": African,
+	"African Languages": African,
 	//"Other and unspecified languages": Other,
 	//"Italian": Italian,
 	//"Portuguese": Portuguese,
-	//"German": German,
+	"German": German,
 	//"Yiddish": Yiddish,
 	//"Other West Germanic languages": Other_West,
 	//"Scandanavian": Scandanavian,
@@ -1450,9 +1448,9 @@ var overlays = {
 	//"Armenian": Armenian,
 	//"Persian": Persian,
 	//"Gujarati": Gujarati,
-	//"Hindi": Hindi,
-	//"Urdu": Urdu,
-	//"Other Indic languages": Other_Indic,
+	"Hindi": Hindi,
+	"Urdu": Urdu,
+	"Other Indic languages": Other_Indic,
 	//"Other Indo-European languages": Other_Indo,
 	"Chinese": Chinese,
 	//"Japanese": Japanese,
@@ -1462,8 +1460,8 @@ var overlays = {
 	//"Thai": Thai,
 	//"Laotian": Laotian,
 	"Vietnamese": Vietnamese,
-	"Other Asian languages": Other_Asian
-	//"Tagalog": Tagalog
+	"Other Asian languages": Other_Asian,
+	"Tagalog": Tagalog
 	//"Other Pacific Island languages": Other_Pacific,
 	//"Navajo": Navajo
 };
