@@ -1,4 +1,4 @@
-# Houston Language Explorer
+# Language Explorer
 This web map uses data collected for the American Community Survey (5-year, 2015) to visualize the languages spoken at home in the greater Houston area using the Leaflet JavaScript library.
 
 ## Motivation
