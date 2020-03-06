@@ -1303,7 +1303,7 @@ var CartoDB_PositronNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/li
 var mapOptions = {
 	zoomControl: false, 
 	attributionControl: false, 
-	center: [29.74,  -95.46],,
+	center: [29.74,  -95.46],
 	zoom: 11,
 	minZoom: 9,
 	maxZoom: 19,
