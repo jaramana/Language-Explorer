@@ -112,7 +112,7 @@ return Mustache.render(popupTemplate_Majority, layer.feature.properties);
 
 
 ///////////////////////////////////////////////////////////////////////////////////
-    function style_Majority_woSpanish(feature) {
+    function style_Majority_woE(feature) {
       return {
         weight: 1,
         opacity: .25,
@@ -121,11 +121,11 @@ return Mustache.render(popupTemplate_Majority, layer.feature.properties);
  		fillColor: getColor_maj(feature.properties.ACS_Majority_woE),
       };
     }
-    Majority_woSpanish = L.geoJson(ACS_B161001_LE, {
-      style: style_Majority_woSpanish,
+    Majority_woE = L.geoJson(ACS_B161001_LE, {
+      style: style_Majority_woE,
     });
 // Add popups to the layer
-Majority_woSpanish.bindPopup(function (layer) {
+Majority_woE.bindPopup(function (layer) {
 // This function is called whenever a feature on the layer is clicked
 console.log(layer.feature.properties);
 
@@ -1294,11 +1294,7 @@ return Mustache.render(popupTemplate_Navajo, layer.feature.properties);
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
-var CartoDB_PositronNoLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-	subdomains: 'abcd',
-	maxZoom: 19
-});
+
 
 var mapOptions = {
 	zoomControl: false, 
@@ -1307,10 +1303,24 @@ var mapOptions = {
 	zoom: 11,
 	minZoom: 9,
 	maxZoom: 19,
-    layers: [CartoDB_PositronNoLabels, Majority],
 };
 
-var map = L.map('map', mapOptions)
+
+var map = L.map('map', mapOptions);
+map.createPane('labels');
+map.getPane('labels').style.zIndex = 650;
+map.getPane('labels').style.pointerEvents = 'none';
+
+var positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB'
+}).addTo(map);
+
+var positronLabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB',
+        pane: 'labels'
+}).addTo(map);
+
+Majority.addTo(map);
 
 
 
@@ -1342,14 +1352,136 @@ legend.onAdd = function (map) {
 
 
 
-var legend_maj = L.control({position: 'bottomright'});
-    legend_maj.onAdd = function (map) {
+var legend_Majority = L.control({position: 'bottomright'});
+    legend_Majority.onAdd = function (map) {
 
-var div_maj = L.DomUtil.create('div', 'info legend');
-    labels_fac = ['<h6 style="text-align:center;font-size:14px;font-weight: bold;">Spoken by Majority</h6>'],
-    categories_maj = ['Speak only English',
+var div_Majority = L.DomUtil.create('div', 'info legend');
+    labels_Majority = ['<h6 style="text-align:center;font-size:14px;font-weight: bold;">Spoken by Majority</h6>'],
+    categories_Majority = ['Speak only English',
 					  'Spanish or Spanish Creole',
 					  //'French incl Patois Cajun',
+					  //'French Creole',
+					  //"Other Native North American languages",
+					  //"Hungarian",
+					  //"Arabic",
+					  //"Hebrew",
+					  //"African languages",
+					  //"Other and unspecified languages",
+					  //'Italian',
+					  //'Portuguese',
+					  //'German',
+					  //'Yiddish',
+					  //'Other West Germanic languages',
+					  //'Scandanavian',
+					  //'Greek',
+					  //'Russian',
+					  //'Polish',
+					  //'Serbo-Croatian',
+					  //'Other Slavic languages',
+					  //'Armenian',
+					  //'Persian',
+					  //'Gujarati',
+					  //'Hindi',
+					  //'Urdu',
+					  //'Other Indic languages',
+					  //'Other Indo-European languages',
+					  //'Chinese',
+					  //'Japanese',
+					  //'Korean',
+					  //'Mon-Khmer Cambodian',
+					  //'Hmong',
+					  //'Thai',
+					  //'Laotian',
+					  //'Vietnamese',
+					  'Other Asian languages',
+					  //'Tagalog',
+					  //'Other Pacific Island languages',
+					  //'Navajo'
+					  'Other'
+					  ];
+    for (var i = 0; i < categories_Majority.length; i++) {
+            div_Majority.innerHTML += 
+            labels_Majority.push(
+                '<i style="background:' + getColor_maj(categories_Majority[i]) + '"></i> ' +
+                (categories_Majority[i] ? categories_Majority[i] + '<br>' : '+'));
+        }
+        div_Majority.innerHTML = labels_Majority.join('');
+    return div_Majority;
+};
+
+
+
+
+
+var legend_Majority_woE = L.control({position: 'bottomright'});
+    legend_Majority_woE.onAdd = function (map) {
+
+var div_Majority_woE = L.DomUtil.create('div', 'info legend');
+    labels_Majority_woE = ['<h6 style="text-align:center;font-size:14px;font-weight: bold;">Spoken by Majority</h6>'],
+    categories_Majority_woE = ['Speak only English',
+					  'Spanish or Spanish Creole',
+					  'French incl Patois Cajun',
+					  //'French Creole',
+					  //"Other Native North American languages",
+					  //"Hungarian",
+					  "Arabic",
+					  //"Hebrew",
+					  "African languages",
+					  //"Other and unspecified languages",
+					  //'Italian',
+					  //'Portuguese',
+					  'German',
+					  //'Yiddish',
+					  //'Other West Germanic languages',
+					  //'Scandanavian',
+					  //'Greek',
+					  //'Russian',
+					  //'Polish',
+					  //'Serbo-Croatian',
+					  'Other Slavic languages',
+					  //'Armenian',
+					  'Persian',
+					  'Gujarati',
+					  'Hindi',
+					  'Urdu',
+					  'Other Indic languages',
+					  //'Other Indo-European languages',
+					  'Chinese',
+					  'Japanese',
+					  'Korean',
+					  //'Mon-Khmer Cambodian',
+					  //'Hmong',
+					  //'Thai',
+					  //'Laotian',
+					  'Vietnamese',
+					  'Other Asian languages',
+					  'Tagalog',
+					  //'Other Pacific Island languages',
+					  //'Navajo'
+					  'Other'
+					  ];
+    for (var i = 0; i < categories_Majority_woE.length; i++) {
+            div_Majority_woE.innerHTML += 
+            labels_Majority_woE.push(
+                '<i style="background:' + getColor_maj(categories_Majority_woE[i]) + '"></i> ' +
+                (categories_Majority_woE[i] ? categories_Majority_woE[i] + '<br>' : '+'));
+        }
+        div_Majority_woE.innerHTML = labels_Majority_woE.join('');
+    return div_Majority_woE;
+};
+
+
+
+
+
+var legend_Majority_woES = L.control({position: 'bottomright'});
+    legend_Majority_woES.onAdd = function (map) {
+
+var div_Majority_woES = L.DomUtil.create('div', 'info legend');
+    labels_Majority_woES = ['<h6 style="text-align:center;font-size:14px;font-weight: bold;">Spoken by Majority</h6>'],
+    categories_Majority_woES = ['Speak only English',
+					  'Spanish or Spanish Creole',
+					  'French incl Patois Cajun',
 					  'French Creole',
 					  //"Other Native North American languages",
 					  //"Hungarian",
@@ -1358,7 +1490,7 @@ var div_maj = L.DomUtil.create('div', 'info legend');
 					  "African languages",
 					  //"Other and unspecified languages",
 					  'Italian',
-					  //'Portuguese',
+					  'Portuguese',
 					  'German',
 					  //'Yiddish',
 					  //'Other West Germanic languages',
@@ -1386,43 +1518,55 @@ var div_maj = L.DomUtil.create('div', 'info legend');
 					  'Other Asian languages',
 					  'Tagalog',
 					  //'Other Pacific Island languages',
-					  //'Navajo'
+					  //'Navajo',
 					  'Other'
 					  ];
-    for (var i = 0; i < categories_maj.length; i++) {
-            div_maj.innerHTML += 
-            labels_fac.push(
-                '<i style="background:' + getColor_maj(categories_maj[i]) + '"></i> ' +
-                (categories_maj[i] ? categories_maj[i] + '<br>' : '+'));
+    for (var i = 0; i < categories_Majority_woES.length; i++) {
+            div_Majority_woES.innerHTML += 
+            labels_Majority_woES.push(
+                '<i style="background:' + getColor_maj(categories_Majority_woES[i]) + '"></i> ' +
+                (categories_Majority_woES[i] ? categories_Majority_woES[i] + '<br>' : '+'));
         }
-        div_maj.innerHTML = labels_fac.join('');
-    return div_maj;
-};legend_maj.addTo(map);
+        div_Majority_woES.innerHTML = labels_Majority_woES.join('');
+    return div_Majority_woES;
+};
 
 
 
 
+legend_Majority.addTo(map);
+currentLegend = legend_Majority;
 
-// Add and remove layers
+
 map.on('baselayerchange', function (eventLayer) {
-    // Switch to the Permafrost legend...
-    if (eventLayer.name === 'Include All Languages' ||
-	    eventLayer.name === 'Exclude English' ||
-	    eventLayer.name === 'Exclude English and Spanish'
-		) {
-        map.removeControl(legend);
-        legend_maj.addTo(map);
-    } else { // Or switch to the treeline legend...
-        map.removeControl(legend_maj);
-        legend.addTo(map);
+    if (eventLayer.name === 'Include All Languages') {
+        map.removeControl(currentLegend );
+        currentLegend = legend_Majority;
+        legend_Majority.addTo(map);
     }
-});
-
-
+    else if  (eventLayer.name === 'Exclude English') {
+        map.removeControl(currentLegend );
+        currentLegend = legend_Majority_woE;
+        legend_Majority_woE.addTo(map);		
+    }
+    else if  (eventLayer.name === 'Exclude English and Spanish') {
+        map.removeControl(currentLegend );
+        currentLegend = legend_Majority_woES;
+        legend_Majority_woES.addTo(map);		
+    }
+    else {
+        map.removeControl(currentLegend );
+        currentLegend = legend;
+        legend.addTo(map);	
+    }
+    }
+  )
+  
+  
 
 var overlays = {
 	"Include All Languages": Majority,
-	"Exclude English": Majority_woSpanish,
+	"Exclude English": Majority_woE,
 	"Exclude English and Spanish": Majority_woES,
 	"Speak only English": English,
 	"Spanish or Spanish Creole": Spanish,
@@ -1473,7 +1617,7 @@ var overlays = {
     closeButton: true,    // whether t add a close button to the panes
     container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
     position: 'left',     // left or right
-}).addTo(map).open('profile');
+}).addTo(map).open('home');
 
   
 
